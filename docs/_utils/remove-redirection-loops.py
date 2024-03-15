@@ -11,7 +11,7 @@ import yaml
 
 f = './redirections.yaml'
 new_f = './redirections.new.yaml'
-d = yaml.load(open(f), Loader=yaml.FullLoader)
+d = yaml.load(open(f), Loader=yaml.SafeLoader)
 replace_dict = {}
 for key, value in d.items():
      if value in d.keys():
