@@ -48,7 +48,7 @@ def main():
                 "Authorization": f"token {github_token}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            response = requests.post(url, headers=headers, json=data)
+            response = requests.post(url, headers=headers, json=data, timeout=60)
             if response.ok:
                 print(f"Label added successfully to {url}")
             else:
