@@ -1,8 +1,8 @@
 import metric
 import os
-import random
 import collectd
 import logging
+import secrets
 
 
 class FakeCollectd(object):
@@ -22,8 +22,8 @@ else:
 
 class FakeMetric(Metric):
     def update(self):
-        self._status['value'] = random.randint(0, 100000)
-        if random.random() > 1 - MARK_ABSENT_PROBABILITY:
+        self._status['value'] = secrets.SystemRandom().randint(0, 100000)
+        if secrets.SystemRandom().random() > 1 - MARK_ABSENT_PROBABILITY:
             self.markAbsent()
         logging.info('{} {}'.format(self.symbol, self.status))
 
@@ -41,7 +41,7 @@ class FakeMetric(Metric):
             _add_metric('localhost/cpu-{}/transport'.format(cpu))
 
         for x in range(100):
-            _add_metric('localhost/fake_{}/{}'.format(x, random.choice('abcdefghijklmnopqrstuvwxyz')))
+            _add_metric('localhost/fake_{}/{}'.format(x, secrets.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz')))
         return results
 
 

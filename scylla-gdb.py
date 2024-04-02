@@ -11,13 +11,13 @@ from operator import attrgetter
 from collections import defaultdict
 import sys
 import struct
-import random
 import bisect
 import os
 import subprocess
 import time
 import socket
 import string
+import secrets
 
 
 def align_up(ptr, alignment):
@@ -1635,7 +1635,7 @@ class scylla_task_histogram(gdb.Command):
 
         pages = cpu_mem['pages']
         nr_pages = int(cpu_mem['nr_pages'])
-        page_samples = range(0, nr_pages) if args.all else random.sample(range(0, nr_pages), nr_pages)
+        page_samples = range(0, nr_pages) if args.all else secrets.SystemRandom().sample(range(0, nr_pages), nr_pages)
 
         text_ranges = get_text_ranges()
 
@@ -4992,7 +4992,7 @@ class scylla_small_objects(gdb.Command):
                     gdb.write("Object size changed ({} -> {}), scanning pool.\n".format(self._last_object_size, args.object_size))
                 self._num_objects = len(self.get_objects(small_pool, verbose=args.verbose))
                 self._last_object_size = args.object_size
-            page = random.randint(0, int(self._num_objects / args.page_size) - 1)
+            page = secrets.SystemRandom().randint(0, int(self._num_objects / args.page_size) - 1)
         else:
             page = args.page
 
