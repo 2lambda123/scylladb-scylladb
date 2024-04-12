@@ -44,6 +44,7 @@ import logging
 from test.pylib import coverage_utils
 import humanfriendly
 import treelib
+import defusedxml.ElementTree
 
 launch_time = time.monotonic()
 
@@ -715,7 +716,7 @@ class BoostTest(UnitTest):
             return test
 
         try:
-            root = ET.parse(self.xmlout).getroot()
+            root = defusedxml.ElementTree.parse(self.xmlout).getroot()
             # only keep the tests which actually ran, the skipped ones do not have
             # TestingTime tag in the corresponding TestCase tag.
             self.__test_case_elements = map(attach_path_and_mode,
