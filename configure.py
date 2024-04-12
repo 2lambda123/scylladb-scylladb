@@ -19,6 +19,7 @@ import tempfile
 import textwrap
 from shutil import which
 from typing import NamedTuple
+from security import safe_command
 
 outdir = 'build'
 
@@ -130,7 +131,7 @@ def try_compile_and_link(compiler, source='', flags=[], verbose=False):
         try:
             sfile.file.write(bytes(source, 'utf-8'))
             sfile.file.flush()
-            ret = subprocess.run([compiler, '-x', 'c++', '-o', ofile, sfile.name] + args.user_cflags.split() + flags,
+            ret = safe_command.run(subprocess.run, [compiler, '-x', 'c++', '-o', ofile, sfile.name] + args.user_cflags.split() + flags,
                                  capture_output=True)
             if verbose:
                 print(f"Compilation failed: {compiler} -x c++ -o {ofile} {sfile.name} {args.user_cflags} {flags}")
@@ -279,7 +280,7 @@ def generate_compdb(compdb, ninja, buildfile, modes):
     #   header-only compilations, etc.)
     os.makedirs(tempfile.tempdir, exist_ok=True)
     with tempfile.NamedTemporaryFile() as ninja_compdb:
-        subprocess.run([ninja, '-f', buildfile, '-t', 'compdb'], stdout=ninja_compdb.file.fileno())
+        safe_command.run(subprocess.run, [ninja, '-f', buildfile, '-t', 'compdb'], stdout=ninja_compdb.file.fileno())
         ninja_compdb.file.flush()
 
         # build mode-specific compdbs
@@ -287,7 +288,7 @@ def generate_compdb(compdb, ninja, buildfile, modes):
             mode_out = outdir + '/' + mode
             submodule_compdbs = [mode_out + '/' + submodule + '/' + compdb for submodule in ['seastar']]
             with open(mode_out + '/' + compdb, 'w+b') as combined_mode_specific_compdb:
-                subprocess.run(['./scripts/merge-compdb.py', 'build/' + mode,
+                safe_command.run(subprocess.run, ['./scripts/merge-compdb.py', 'build/' + mode,
                                 ninja_compdb.name] + submodule_compdbs, stdout=combined_mode_specific_compdb)
 
     # sort modes by supposed indexing speed
@@ -1612,7 +1613,7 @@ def generate_version(date_stamp):
     date_stamp_opt = ''
     if date_stamp:
         date_stamp_opt = f'--date-stamp {date_stamp}'
-    status = subprocess.call(f"./SCYLLA-VERSION-GEN {date_stamp_opt}", shell=True)
+    status = safe_command.run(subprocess.call, f"./SCYLLA-VERSION-GEN {date_stamp_opt}", shell=True)
     if status != 0:
         print('Version file generation failed')
         sys.exit(1)

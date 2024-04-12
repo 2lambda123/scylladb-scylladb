@@ -44,6 +44,7 @@ import logging
 from test.pylib import coverage_utils
 import humanfriendly
 import treelib
+from security import safe_command
 
 launch_time = time.monotonic()
 
@@ -100,7 +101,7 @@ def ninja(target):
     args = ['ninja', target]
     if os.path.exists(os.path.join(build_dir, 'build.ninja')):
         args = ['ninja', '-C', build_dir, target]
-    return subprocess.Popen(args, stdout=subprocess.PIPE).communicate()[0].decode()
+    return safe_command.run(subprocess.Popen, args, stdout=subprocess.PIPE).communicate()[0].decode()
 
 
 class TestSuite(ABC):
