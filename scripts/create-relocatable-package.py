@@ -122,7 +122,7 @@ have_gnutls = any([lib.startswith('libgnutls.so')
 # command. We can complete the compression even faster by using the pigz
 # command - a parallel implementation of gzip utilizing all processors
 # instead of just one.
-gzip_process = subprocess.Popen("pigz > "+output, shell=True, stdin=subprocess.PIPE)
+gzip_process = subprocess.Popen("pigz > "+output, shell=False, stdin=subprocess.PIPE)
 
 ar = tarfile.open(fileobj=gzip_process.stdin, mode='w|')
 # relocatable package format version = 3.0

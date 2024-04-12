@@ -35,10 +35,10 @@ i18n_xlat = {
     },
 }
 
-python3_dependencies = subprocess.run('./install-dependencies.sh --print-python3-runtime-packages', shell=True, capture_output=True, encoding='utf-8').stdout.strip()
-pip_dependencies = subprocess.run('./install-dependencies.sh --print-pip-runtime-packages', shell=True, capture_output=True, encoding='utf-8').stdout.strip()
-pip_symlinks = subprocess.run('./install-dependencies.sh --print-pip-symlinks', shell=True, capture_output=True, encoding='utf-8').stdout.strip()
-node_exporter_filename = subprocess.run('./install-dependencies.sh --print-node-exporter-filename', shell=True, capture_output=True, encoding='utf-8').stdout.strip()
+python3_dependencies = subprocess.run('./install-dependencies.sh --print-python3-runtime-packages', shell=False, capture_output=True, encoding='utf-8').stdout.strip()
+pip_dependencies = subprocess.run('./install-dependencies.sh --print-pip-runtime-packages', shell=False, capture_output=True, encoding='utf-8').stdout.strip()
+pip_symlinks = subprocess.run('./install-dependencies.sh --print-pip-symlinks', shell=False, capture_output=True, encoding='utf-8').stdout.strip()
+node_exporter_filename = subprocess.run('./install-dependencies.sh --print-node-exporter-filename', shell=False, capture_output=True, encoding='utf-8').stdout.strip()
 node_exporter_dirname = os.path.basename(node_exporter_filename).rstrip('.tar.gz')
 
 
@@ -1612,7 +1612,7 @@ def generate_version(date_stamp):
     date_stamp_opt = ''
     if date_stamp:
         date_stamp_opt = f'--date-stamp {date_stamp}'
-    status = subprocess.call(f"./SCYLLA-VERSION-GEN {date_stamp_opt}", shell=True)
+    status = subprocess.call(f"./SCYLLA-VERSION-GEN {date_stamp_opt}", shell=False)
     if status != 0:
         print('Version file generation failed')
         sys.exit(1)
