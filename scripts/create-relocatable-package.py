@@ -113,8 +113,8 @@ libs.update({'libthread_db.so.1': os.path.realpath('/lib64/libthread_db.so')})
 
 ld_so = libs['ld.so']
 
-have_gnutls = any([lib.startswith('libgnutls.so')
-                   for lib in libs.keys()])
+have_gnutls = any(lib.startswith('libgnutls.so')
+                   for lib in libs.keys())
 
 # Although tarfile.open() can write directly to a compressed tar by using
 # the "w|gz" mode, it does so using a slow Python implementation. It is as

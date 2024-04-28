@@ -3284,7 +3284,7 @@ class scylla_thread(gdb.Command):
                     " Please pass the `--iamsure` flag to acknowledge being fine with this risk.\n")
             return
 
-        if sum([arg for arg in [args.apply_all, args.switch, args.print_regs]]) > 1:
+        if sum(arg for arg in [args.apply_all, args.switch, args.print_regs]) > 1:
             gdb.write("Only one of `--apply-all`, `--switch` or `--print-regs` can be used.\n")
             return
 

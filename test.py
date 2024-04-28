@@ -1714,7 +1714,7 @@ async def process_coverage(options):
         if path.is_file():
             return os.path.getsize(path)
         elif path.is_dir():
-            return sum([os.path.getsize(f) for f in path.glob("**/*") if f.is_file()])
+            return sum(os.path.getsize(f) for f in path.glob("**/*") if f.is_file())
         else:
             return 0
     class Stats:
