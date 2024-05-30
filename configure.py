@@ -457,8 +457,7 @@ modes = {
     },
 }
 
-scylla_tests = set([
-    'test/boost/UUID_test',
+scylla_tests = {'test/boost/UUID_test',
     'test/boost/pretty_printers_test',
     'test/boost/cdc_generation_test',
     'test/boost/aggregate_fcts_test',
@@ -660,20 +659,16 @@ scylla_tests = set([
     'test/unit/btree_compaction_test',
     'test/unit/radix_tree_stress_test',
     'test/unit/radix_tree_compaction_test',
-    'test/unit/cross_shard_barrier_test',
-])
+    'test/unit/cross_shard_barrier_test',}
 
-perf_tests = set([
-    'test/perf/perf_mutation_readers',
+perf_tests = {'test/perf/perf_mutation_readers',
     'test/perf/perf_checksum',
     'test/perf/perf_mutation_fragment',
     'test/perf/perf_idl',
     'test/perf/perf_vint',
-    'test/perf/perf_big_decimal',
-])
+    'test/perf/perf_big_decimal',}
 
-raft_tests = set([
-    'test/raft/replication_test',
+raft_tests = {'test/raft/replication_test',
     'test/raft/randomized_nemesis_test',
     'test/raft/many_test',
     'test/raft/raft_server_test',
@@ -682,11 +677,9 @@ raft_tests = set([
     'test/raft/raft_sys_table_storage_test',
     'test/raft/raft_address_map_test',
     'test/raft/discovery_test',
-    'test/raft/failure_detector_test',
-])
+    'test/raft/failure_detector_test',}
 
-wasms = set([
-    'wasm/return_input.wat',
+wasms = {'wasm/return_input.wat',
     'wasm/test_complex_null_values.wat',
     'wasm/test_fib_called_on_null.wat',
     'wasm/test_functions_with_frozen_types.wat',
@@ -696,18 +689,13 @@ wasms = set([
     'wasm/test_types_with_and_without_nulls.wat',
     'wasm/test_UDA_final.wat',
     'wasm/test_UDA_scalar.wat',
-    'wasm/test_word_double.wat',
-])
+    'wasm/test_word_double.wat',}
 
-apps = set([
-    'scylla',
-])
+apps = {'scylla',}
 
 tests = scylla_tests | perf_tests | raft_tests
 
-other = set([
-    'iotune',
-])
+other = {'iotune',}
 
 all_artifacts = apps | tests | other | wasms
 
@@ -1368,8 +1356,7 @@ deps = {
     'scylla': idls + ['main.cc'] + scylla_core + api + alternator + redis + scylla_tools + scylla_perfs,
 }
 
-pure_boost_tests = set([
-    'test/boost/anchorless_list_test',
+pure_boost_tests = {'test/boost/anchorless_list_test',
     'test/boost/auth_passwords_test',
     'test/boost/auth_resource_test',
     'test/boost/big_decimal_test',
@@ -1401,11 +1388,9 @@ pure_boost_tests = set([
     'test/boost/bptree_test',
     'test/boost/utf8_test',
     'test/boost/string_format_test',
-    'test/manual/streaming_histogram_test',
-])
+    'test/manual/streaming_histogram_test',}
 
-tests_not_using_seastar_test_framework = set([
-    'test/boost/alternator_unit_test',
+tests_not_using_seastar_test_framework = {'test/boost/alternator_unit_test',
     'test/boost/small_vector_test',
     'test/manual/gossip',
     'test/manual/message',
@@ -1426,8 +1411,7 @@ tests_not_using_seastar_test_framework = set([
     'test/unit/radix_tree_stress_test',
     'test/unit/radix_tree_compaction_test',
     'test/manual/sstable_scan_footprint_test',
-    'test/unit/cross_shard_barrier_test',
-]) | pure_boost_tests
+    'test/unit/cross_shard_barrier_test',} | pure_boost_tests
 
 
 COVERAGE_INST_FLAGS = ['-fprofile-instr-generate', '-fcoverage-mapping', f'-fprofile-list=./{PROFILES_LIST_FILE_NAME}']

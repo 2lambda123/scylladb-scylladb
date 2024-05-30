@@ -54,7 +54,7 @@ all_modes = {'debug': 'Debug',
              'dev': 'Dev',
              'sanitize': 'Sanitize',
              'coverage': 'Coverage'}
-debug_modes = set(['debug', 'sanitize'])
+debug_modes = {'debug', 'sanitize'}
 
 def create_formatter(*decorators) -> Callable[[Any], str]:
     """Return a function which decorates its argument with the given
@@ -1404,7 +1404,7 @@ async def find_tests(options: argparse.Namespace) -> None:
 async def run_all_tests(signaled: asyncio.Event, options: argparse.Namespace) -> None:
     console = TabularConsoleOutput(options.verbose, TestSuite.test_count())
     signaled_task = asyncio.create_task(signaled.wait())
-    pending = set([signaled_task])
+    pending = {signaled_task}
 
     async def cancel(pending):
         for task in pending:
