@@ -1129,8 +1129,9 @@ class TabularConsoleOutput:
             print(msg)
 
 
-async def run_test(test: Test, options: argparse.Namespace, gentle_kill=False, env=dict()) -> bool:
+async def run_test(test: Test, options: argparse.Namespace, gentle_kill=False, env=None) -> bool:
     """Run test program, return True if success else False"""
+    env = {} if env is None else env
 
     with test.log_filename.open("wb") as log:
 

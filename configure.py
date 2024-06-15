@@ -118,11 +118,13 @@ def pkg_config(package, *options):
     return output.decode('utf-8').strip()
 
 
-def try_compile(compiler, source='', flags=[]):
+def try_compile(compiler, source='', flags=None):
+    flags = [] if flags is None else flags
     return try_compile_and_link(compiler, source, flags=flags + ['-c'])
 
 
-def try_compile_and_link(compiler, source='', flags=[], verbose=False):
+def try_compile_and_link(compiler, source='', flags=None, verbose=False):
+    flags = [] if flags is None else flags
     os.makedirs(tempfile.tempdir, exist_ok=True)
     with tempfile.NamedTemporaryFile() as sfile:
         ofd, ofile = tempfile.mkstemp()

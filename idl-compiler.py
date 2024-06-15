@@ -205,7 +205,8 @@ class Attributes(ASTBase):
        for a class.
      - `[[version id]] field attribute, marks that a field is available starting
        from a specific version.'''
-    def __init__(self, attr_items=[]):
+    def __init__(self, attr_items=None):
+        attr_items = [] if attr_items is None else attr_items
         super().__init__('attributes')
         self.attr_items = attr_items
 
@@ -940,7 +941,8 @@ def is_stub(cls):
     return cls in stubs
 
 
-def handle_visitors_state(cls, cout, classes=[]):
+def handle_visitors_state(cls, cout, classes=None):
+    classes = [] if classes is None else classes
     name = "__".join(classes) if classes else cls.name
     frame = "empty_frame" if cls.final else "frame"
     fprintln(cout, f"""
@@ -1286,7 +1288,8 @@ def add_nodes_when_needed(cout, member, base_state_name, parents, member_classes
         handle_visitors_nodes(local_writable_types[member.type.name], cout, False, member_classes + [member.name])
 
 
-def handle_visitors_nodes(cls, cout, variant_node=False, classes=[]):
+def handle_visitors_nodes(cls, cout, variant_node=False, classes=None):
+    classes = [] if classes is None else classes
     global writers
     # for root node, only generate once
     if not classes:
@@ -1364,7 +1367,8 @@ def sort_dependencies():
     return res
 
 
-def join_template_view(lst, more_types=[]):
+def join_template_view(lst, more_types=None):
+    more_types = [] if more_types is None else more_types
     return "<" + ", ".join([param_view_type(l) for l in lst] + more_types) + ">"
 
 
@@ -1662,11 +1666,13 @@ def handle_types(tree):
             print(f"Unknown object type: {obj}")
 
 
-def setup_additional_metadata(tree, ns_context = [], parent_template_params=[]):
+def setup_additional_metadata(tree, ns_context = None, parent_template_params=None):
     '''Cache additional metadata for each type declaration directly in the AST node.
 
     This currently includes namespace info and template parameters for the
     parent scope (applicable only to enums and classes).'''
+    ns_context = [] if ns_context is None else ns_context
+    parent_template_params = [] if parent_template_params is None else parent_template_params
     for obj in tree:
         if isinstance(obj, NamespaceDef):
             setup_additional_metadata(obj.members, ns_context + [obj.name])
